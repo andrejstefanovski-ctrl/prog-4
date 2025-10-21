@@ -91,7 +91,7 @@ int main()
     int n,m,s,t;
     cin >> n >> m >> s >> t;
     Dinic d(n,s,t);
-    for (int i=0; i<n; i++)
+    for (int i=0; i<m; i++)
     {
         int e1,e2,w;
         cin >> e1 >> e2 >> w;
