@@ -68,7 +68,7 @@ int main()
             if (!H.is_pal(i, j)) continue; //preskokni nepalindromi
             pc[i][len] = 1; //site palindromi po default imaat karakteristika 1
             int half = len/2;
-            if (half>0 && H.is_pal(i, i+half-1))
+            if (half>0 && H.is_pal(i, i+half-1)) //proveri dali prvata polovina e palindrom, za da se zgolemi karakteristikata
             {
                 pc[i][len]=pc[i][half]+1;
             }
@@ -81,7 +81,7 @@ int main()
     }
     for (int k=n; k>=1; k--)
     {
-        ans[k]+=ans[k+1];
+        ans[k]+=ans[k+1]; //codeforces bara da se presmeta >=karakteristika
     }
     for (int k=1; k<=n; k++) 
     {
