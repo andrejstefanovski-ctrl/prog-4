@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-long long get_hash(int l, int r, const vector<long long>& h, const vector<long long>& p_pow, int n, long long mod) 
+long long get_hash(int l, int r, vector<long long>& h, vector<long long>& p_pow, int n, long long mod) 
 {
     long long res = (h[r+1] - h[l] + mod) % mod;
     res = (res * p_pow[n-l]) % mod;
@@ -11,25 +11,35 @@ long long get_hash(int l, int r, const vector<long long>& h, const vector<long l
 
 int main() 
 {
-    string s, good;
+    string s, t;
     int k;
-    cin >> s >> good >> k;
+    cin >> s >> t >> k;
 
     int n = s.size();
     vector<int> bad(n+1, 0);
 
     for (int i=0; i<n; i++) 
     {
-        bad[i+1] = bad[i] + (good[s[i] - 'a'] == '0');
+        if (t[s[i] - 'a'] == '0')
+        {
+            bad[i+1] = bad[i] + 1;
+        }
+        else
+        {
+            bad[i+1] = bad[i];
+        }
     }
 
-    const long long mod = 1e9 + 9;
-    const long long p = 31;
+
+    long long mod = 1e9 + 9;
+    long long p = 31;
 
     vector<long long> p_pow(n+1);
     p_pow[0] = 1;
-    for (int i=1; i<=n; i++) p_pow[i] = (p_pow[i-1] * p) % mod;
-
+    for (int i=1; i<=n; i++)
+    {
+        p_pow[i] = (p_pow[i-1] * p) % mod;
+    }
     vector<long long> h(n+1, 0);
     for (int i=0; i<n; i++) 
     {
