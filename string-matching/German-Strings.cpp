@@ -20,6 +20,7 @@ vector<int> rabin_karp(string& s, string& t) //s e pattern a t e string vo koj b
     {
         deg[i]=(deg[i-1]*p)%mod; //za da bide stringot so unikatna vrednost, odnosno da ne bide ista vrednosta na ABC so BCA primer
     }
+    //ANDREJ STEFANOVSKI
     vector<long long> hash(tlen+1, 0);
     for (int i=0; i<tlen; i++)
     {
@@ -53,6 +54,7 @@ class GermanString {
     char* getPtr() const {
         char* p;
         memcpy(&p, data + 4, sizeof(p));
+        //ANDREJ STEFANOVSKI
         return p;
     }
 
@@ -83,11 +85,15 @@ public:
 
     string makeString() const {
         if (isShort()) return string(data, len);
-        return string(getPtr(), len);
+        return string(getPtr(), len); //ANDST
     }
 
     int getLen() const {
         return len;
+    }
+
+    char& operator[](int index) {
+        return data[index];
     }
 
     bool operator==(const GermanString& o) const {
@@ -113,6 +119,7 @@ public:
     bool find(string s) {
         string a = this->makeString();
         vector<int> occurances = rabin_karp(s, a);
+        //ANDREJ STEFANOVSKI
         if (occurances.size() == 0) {
             return false;
         }
@@ -138,5 +145,8 @@ int main() {
     cout << x << " " << y << '\n';
     cout << ck.getLen() << '\n';
     cout << gg.find(patternT) << " " << gg.find(patternF) << '\n';
+    cout << c[1] << '\n';
+    c[1]='k';
+    cout << c << '\n';
     return 0;
 }
