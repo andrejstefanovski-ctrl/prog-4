@@ -1,38 +1,34 @@
 //
 // Created by Andrej on 12/1/2025.
 //
-#include <cstring>
-#include <string>
-#include <iostream>
-#include <cstdint>
-#include <vector>
+#include "../tricheur.h"
 
 using namespace std;
 
-vector<int> rabin_karp(string& s, string& t) //s e pattern a t e string vo koj barame pattern
+vector<ikt> rabin_karp(string& s, string& t) //s e pattern a t e string vo koj barame pattern
 {
-    int p=13; //mal prost broj
-    int mod=1e9+9; //koristime modul za da izbegneme pregolemi brojki. modulot e prost broj
-    int slen=s.length(), tlen=t.length();
+    ikt p=13; //mal prost broj
+    ikt mod=1e9+9; //koristime modul za da izbegneme pregolemi brojki. modulot e prost broj
+    ikt slen=s.length(), tlen=t.length();
     vector<long long> deg(max(slen, tlen)); //niza od stepeni na p po moudl mod
     deg[0]=1; //ova e p^0
-    for (int i=1; i<max(slen,tlen); i++)
+    for (ikt i=1; i<max(slen,tlen); i++)
     {
         deg[i]=(deg[i-1]*p)%mod; //za da bide stringot so unikatna vrednost, odnosno da ne bide ista vrednosta na ABC so BCA primer
     }
     //ANDREJ STEFANOVSKI
     vector<long long> hash(tlen+1, 0);
-    for (int i=0; i<tlen; i++)
+    for (ikt i=0; i<tlen; i++)
     {
         hash[i+1] = (hash[i] + (t[i]-'a'+1) * deg[i]) % mod; //presmetaj hash vrednost na t[0,1,...,tlen-1]
     }
     long long hash_string=0; //hash na petternot s
-    for (int i=0; i<slen; i++)
+    for (ikt i=0; i<slen; i++)
     {
         hash_string = (hash_string + (s[i]-'a'+1) * deg[i]) % mod;
     }
-    vector<int> occurances;
-    for (int i=0; i+slen-1<tlen; i++) //pomini gi site substringovi od dolzina slen vo t
+    vector<ikt> occurances;
+    for (ikt i=0; i+slen-1<tlen; i++) //pomini gi site substringovi od dolzina slen vo t
     {
         long long cur_h = (hash[i+slen]+mod-hash[i])%mod; //momentalniot hash e prefix(desno)-prefix(levo). +mod e za da izbegneme negativni vrednosti po moduliranje
         if (cur_h == hash_string * deg[i] % mod) //shiftaj go predpresmetaniot string za da bide kako za momentalniot substring
@@ -44,7 +40,7 @@ vector<int> rabin_karp(string& s, string& t) //s e pattern a t e string vo koj b
 }
 
 class GermanString {
-    uint32_t len;
+    u32kt len;
     char data[12];
 
     bool isShort() const {
@@ -115,11 +111,11 @@ public:
         return string(getPtr(), len); //ANDST
     }
 
-    int getLen() const {
+    ikt getLen() const {
         return len;
     }
 
-    char& operator[](int index) {
+    char& operator[](ikt index) {
         if (isShort()) {
             return data[index];
         }
@@ -136,7 +132,7 @@ public:
         return memcmp(getPtr(), o.getPtr(), len) == 0;
     }
 
-    char at(int ind) {
+    char at(ikt ind) {
         if (isShort()) {
             return data[ind];
         }
@@ -150,7 +146,7 @@ public:
 
     bool find(string s) {
         string a = this->makeString();
-        vector<int> occurances = rabin_karp(s, a);
+        vector<ikt> occurances = rabin_karp(s, a);
         //ANDREJ STEFANOVSKI
         if (occurances.size() == 0) {
             return false;
@@ -181,7 +177,7 @@ ostream& operator<<(ostream& os, const GermanString& gs) {
     return os;
 }
 
-int main() {
+ikt main() {
     GermanString gha("brout");
     cout << gha << '\n';
     string c = "Proba1";
