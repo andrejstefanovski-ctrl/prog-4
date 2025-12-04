@@ -63,7 +63,7 @@ class GermanString {
     }
 
 public:
-    GermanString(const std::string& s) {
+    GermanString(const string& s) {
         len = s.size();
 
         if (isShort()) {
@@ -76,6 +76,33 @@ public:
             memcpy(heap, s.data(), len);
             setPtr(heap);
         }
+    }
+
+    GermanString(const GermanString& o) {
+        len = o.len;
+        if (isShort()) {
+            memcpy(data, o.data, 12);
+        }
+        else {
+            memcpy(data, o.data, 4);
+            char* heap = new char[len];
+            memcpy(heap, o.getPtr(), len);
+            setPtr(heap);
+        }
+    }
+
+    GermanString& operator=(const GermanString& o) {
+        len = o.len;
+        if (isShort()) {
+            memcpy(data, o.data, 12);
+        }
+        else {
+            memcpy(data, o.data, 4);
+            char* heap = new char[len];
+            memcpy(heap, o.getPtr(), len);
+            setPtr(heap);
+        }
+        return *this;
     }
 
     ~GermanString() {
@@ -93,7 +120,10 @@ public:
     }
 
     char& operator[](int index) {
-        return data[index];
+        if (isShort()) {
+            return data[index];
+        }
+        return getPtr()[index];
     }
 
     bool operator==(const GermanString& o) const {
@@ -107,8 +137,10 @@ public:
     }
 
     char at(int ind) {
-        if (ind >= len) return 0;
-        return data[ind];
+        if (isShort()) {
+            return data[ind];
+        }
+        return getPtr()[ind];
     }
 
     GermanString operator+(const GermanString& o) const {
@@ -125,6 +157,23 @@ public:
         }
         return true;
     }
+
+    bool find(GermanString s) {
+        string ss = s.makeString();
+        return find(ss);
+    }
+
+    bool empty() const {
+        return len == 0;
+    }
+
+    void clear() {
+        if (!isShort()) {
+            delete[] getPtr();
+        }
+        len = 0;
+        memset(data, 0, 12);
+    }
 };
 
 ostream& operator<<(ostream& os, const GermanString& gs) {
@@ -133,6 +182,8 @@ ostream& operator<<(ostream& os, const GermanString& gs) {
 }
 
 int main() {
+    GermanString gha("brout");
+    cout << gha << '\n';
     string c = "Proba1";
     GermanString g(c);
     cout << g.at(2) << '\n';
@@ -148,5 +199,13 @@ int main() {
     cout << c[1] << '\n';
     c[1]='k';
     cout << c << '\n';
+    GermanString ng("Eve ti neshto"), nng("kratko");
+    GermanString ng1 = ng, nng1=nng;
+    cout << ng1 << '\n';
+    cout << nng1 << '\n';
+    ng1 = nng1;
+    cout << ng1 << '\n';
+    cout << gg.find(nng) << '\n';
+    cout << gg.find(cc1);
     return 0;
 }
