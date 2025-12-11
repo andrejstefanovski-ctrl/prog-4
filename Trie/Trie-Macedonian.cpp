@@ -23,7 +23,7 @@ Maska: 0xD0(11110000); Ocekuvan Rezultat(2B): 0xE0(11100000)
 Maska: 0xF8(11111000); Ocekuvan Rezultat(4B): 0xF0(11110000) 
 andrej stefanovski
 da vizuelizirame so primer: 
-c:      110xxxxx 
+c:      110xxxxx
 AND:    11100000 
 --------------------- 
         11000000 == Ocekuvan Rezultat(1B) = TRUE, znaci c e 1B itn itn. */
