@@ -14,7 +14,7 @@ struct Trie {
 /* Logikata pozadi bitmask: 
 Vo UTF-8 postoi slednovo: 
 1B karakteri(ASCII) se zapisuvaat kako: 0xxxxxxx 
-2B karakteri: 110xxxxx 
+2B karakteri: 110xxxxx
 3B karakteri: 1110xxxx 
 4B karakteri: 11110xxx 
 koristejki na logicko AND nie mozeme so pomos na bitmask da gi pretvorime vo edno od slednive vrednosti: 
