@@ -6,6 +6,8 @@ struct MyInt {
     friend bool operator>=(string a, string b);
     friend MyInt operator+(MyInt& a, MyInt& b);
     friend MyInt operator-(MyInt& a, MyInt& b);
+    friend MyInt operator*(MyInt& a, MyInt& b);
+    friend MyInt operator/(MyInt& a, MyInt& b);
 };
 
 string rm_nuli(string s) {
@@ -72,15 +74,74 @@ MyInt operator-(MyInt& a, MyInt& b) {
     return {rm_nuli(res)};
 }
 
+MyInt operator*(MyInt& a, MyInt& b) {
+    string x=a.num, y=b.num;
+    if (x == "0" || y == "0") return {"0"};
+    reverse(x.begin(), x.end());
+    reverse(y.begin(), y.end());
+    vector<int> res(x.size() + y.size(), 0);
+
+    for (int i=0; i<x.size(); i++) {
+        for (int j=0; j<y.size(); j++) {
+            res[i+j] += (x[i]-'0') * (y[j]-'0'); //stefanovski
+        }
+    }
+
+    for (int i=0; i<res.size(); i++) {
+        int ost = res[i]/10;
+        res[i]%=10;
+        if (i+1 < res.size()) {
+            res[i+1] += ost;
+        }
+    }
+
+    string s="";
+    for (auto& it : res) s.push_back(it+'0');
+    reverse(s.begin(), s.end());
+    return {rm_nuli(s)};
+}
+
+MyInt operator/(MyInt& a, MyInt& b) {
+    string x = rm_nuli(a.num);
+    string y = rm_nuli(b.num);
+
+    if (y == "0") {
+        cerr << "KAKO DELIS SO 0?";
+        return {"-1012007"};
+    }
+    string cur = "";
+    string res = "";
+    //andrej
+    for (int i = 0; i < x.size(); i++) {
+        cur.push_back(x[i]);
+        cur = rm_nuli(cur);
+
+        int cnt = 0;
+        while (cur >= y) {
+            MyInt t1{cur}, t2{y};
+            cur = (t1 - t2).num;
+            cnt++;
+        }
+        res.push_back(cnt + '0');
+    }
+
+    return {rm_nuli(res)};
+}
+
+
 int main() {
-    MyInt a{"001234"};
-    MyInt b{"567"};
+    MyInt a{"1069"};
+    MyInt b{"173"};
 
     MyInt c = a + b;
     MyInt d = a - b;
+    MyInt e = a * b;
+    MyInt f = a / b;
 
-    cout << c.num << "\n"; // 1801
-    cout << d.num << "\n"; // 667
+    cout << c.num << "\n";
+    cout << d.num << "\n";
+    cout << e.num << "\n";
+    cout << f.num << "\n";
 
     return 0;
 }
