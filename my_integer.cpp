@@ -18,13 +18,17 @@ string rm_nuli(string s) {
     return s.substr(i);
 }
 
+
 bool operator>=(string a, string b) {
     a = rm_nuli(a);
     b = rm_nuli(b);
     //stefanovski
-    if (a.size()!=b.size()) return a.size() > b.size();
-    return a >= b;
+    if (a.size() != b.size())
+        return a.size() > b.size();
+
+    return !(a<b);
 }
+
 
 MyInt operator+(MyInt& a, MyInt& b) {
     string x = a.num, y = b.num;
@@ -130,8 +134,8 @@ MyInt operator/(MyInt& a, MyInt& b) {
 
 
 int main() {
-    MyInt a{"1069"};
-    MyInt b{"173"};
+    MyInt a{"146738236478392347389234678392345674839234783947389237829467389236782947389"};
+    MyInt b{"50744673827832738237283723827382372837823"};
 
     MyInt c = a + b;
     MyInt d = a - b;
