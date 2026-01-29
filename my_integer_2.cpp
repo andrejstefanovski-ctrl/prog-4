@@ -32,7 +32,6 @@ istream& operator>>(istream& is, MyInt& a)
     return is;
 }
 
-
 bool operator==(MyInt& a, MyInt& b) {
     return rm_nuli(a.num) == rm_nuli(b.num);
 }
