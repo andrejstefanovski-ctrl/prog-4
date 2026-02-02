@@ -59,6 +59,13 @@ bool operator<(const MyInt& a, const MyInt& b) {
     return x < y;
 }
 
+bool operator>(const MyInt& a, const MyInt& b) {
+    string x = rm_nuli(a.num);
+    string y = rm_nuli(b.num);
+    if (x.size() != y.size()) return x.size() > y.size();
+    return x > y;
+} 
+
 bool operator>=(const MyInt& a, const MyInt& b) {
     return !(a < b);
 }
@@ -244,6 +251,70 @@ vector<MyInt> dijkstraPrimes(MyInt n)
 
     return primes;
 }
+
+MyInt modpow(MyInt a, MyInt d, const MyInt& mod) {
+    MyInt ZERO{"0"}, ONE{"1"}, TWO{"2"};
+    MyInt res{"1"};
+    a = a % mod;
+    while (d > ZERO) {
+        if (d % TWO == ONE)
+            res=(res*a) % mod;
+        a = (a*a) % mod;
+        d = d/TWO;
+    }
+    return res;
+}
+
+bool millerTest(const MyInt& a, const MyInt& s, const MyInt& d, const MyInt& n) {
+    MyInt ONE{"1"};
+    MyInt nm1 = n - ONE;
+    MyInt x = modpow(a, d, n);
+    if (x == ONE || x == nm1) return true;
+    MyInt i{"1"};
+    while (i < s) {
+        x = (x * x) % n;
+        if (x == nm1) return true;
+        i = i + ONE;
+    }
+    return false;
+}
+
+MyInt randomBase(const MyInt& n) {
+    static mt19937_64 rng(time(0));
+    MyInt TWO{"2"}, FOUR{"4"};
+
+    uint64_t r = rng();
+    MyInt a = MyInt(to_string(r));
+    a = (a % (n - FOUR)) + TWO; // 2 ≤ a ≤ n-2
+    return a;
+}
+
+bool millerRabin(MyInt n) {
+    MyInt ZERO{"0"}, ONE{"1"}, TWO{"2"}, THREE{"3"};
+    if (n <= ONE) return false;
+    if (n == TWO || n == THREE) return true;
+    if (n % TWO == ZERO) return false;
+
+    MyInt d = n - ONE;
+    MyInt s{"0"};
+    while (d % TWO == ZERO) {
+        d = d / TWO;
+        s = s + ONE;
+    }
+    vector<MyInt> bases = {
+        "2", "325", "9375", "28178",
+        "450775", "9780504", "1795265022"
+    };
+
+    for (auto& a : bases) {
+        if (a >= n) continue;
+        if (!millerTest(a, s, d, n))
+            return false;
+    }
+    return true;
+}
+
+
 
 int main() {
     MyInt a{"146738236478392347389234678392345674839234783947389237829467389236782947389"};
